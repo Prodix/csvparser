@@ -29,7 +29,7 @@ async def usersGenerator(userCount, usersList, index):
     for i in range(userCount*index+1, userCount+1+userCount*index):
         usersList[index].append({'id': i, 'first_name': names.get_first_name(), 'last_name': names.get_last_name()})
 
-
+# task generator
 async def main(usersList, taskCount, allUsers):
     taskSet = set()
     for i in range(taskCount):
@@ -38,18 +38,16 @@ async def main(usersList, taskCount, allUsers):
     asyncio.gather(*taskSet)
 
 if __name__ == "__main__":
-    usersList = []
     taskCount = 10000
     allUsers = 100000
+    usersList = [[] for i in range(taskCount)]
 
     with open('file.csv', 'w') as file:
         pass
-    
-    for i in range(taskCount):
-        usersList.append([])
 
     time1 = time.time() # time before start
     asyncio.run(main(usersList, taskCount, allUsers))
     print(time.time()-time1, " seconds") # timediff
-    writeUsers(usersList)
-    readUsers()
+
+    writeUsers(usersList) # write to csv
+    readUsers() # dump to json
